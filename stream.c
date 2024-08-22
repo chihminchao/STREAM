@@ -201,9 +201,6 @@ extern void tuned_STREAM_Scale(STREAM_TYPE scalar);
 extern void tuned_STREAM_Add();
 extern void tuned_STREAM_Triad(STREAM_TYPE scalar);
 #endif
-#ifdef _OPENMP
-extern int omp_get_num_threads();
-#endif
 int
 main()
     {
@@ -242,26 +239,6 @@ main()
     printf("Each kernel will be executed %d times.\n", NTIMES);
     printf(" The *best* time for each kernel (excluding the first iteration)\n"); 
     printf(" will be used to compute the reported bandwidth.\n");
-
-#ifdef _OPENMP
-    printf(HLINE);
-#pragma omp parallel 
-    {
-#pragma omp master
-	{
-	    k = omp_get_num_threads();
-	    printf ("Number of Threads requested = %i\n",k);
-        }
-    }
-#endif
-
-#ifdef _OPENMP
-	k = 0;
-#pragma omp parallel
-#pragma omp atomic 
-		k++;
-    printf ("Number of Threads counted = %i\n",k);
-#endif
 
     /* Get initial value for system clock. */
 #pragma omp parallel for
